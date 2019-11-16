@@ -9,6 +9,14 @@
                 {"name": "lastname", "type": "string"},
                 {"name": "age", "type": "number"}
             ]
+        },
+        {
+            "name":"Course",
+            "fields": [
+                {"name": "title", "type": "string"},
+                {"name": "professor", "type": "string"},
+                {"name": "location", "type": "string"}
+            ]
         }
     ]
 }
