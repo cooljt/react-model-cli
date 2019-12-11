@@ -15,8 +15,8 @@ class <%=entity%>Table extends React.Component {
 
 	render() {
         return <div> 
-                {isFetching && <h3> Fetching data... </h3>}
-		        {!isFetching && <<%=entity%>List data={this.state.data}/>}
+                {this.state.isFetching && <h3> Fetching data... </h3>}
+		        {!this.state.isFetching && <<%=entity%>List data={this.state.data}/>}
                </div>
 	}
 }
@@ -26,31 +26,45 @@ export default <%=entity%>Table;
 const listTemplate = `
 import React from 'react';
 import <%=entity%>Editor from './<%=entity%>Editor.js';
-const <%=entity%>List = (data) => {
+
+const tableStyle = {
+    width:'100%',
+    border: '1px solid black',
+    borderCollapse: 'collapse'
+}
+
+const rowStyle = {
+    border: '1px solid black',
+    borderCollapse: 'collapse',
+    padding: '15px'
+}
+
+const <%=entity%>List = ({data}) => {
 
     const renderData = (input) => {
         return input.map((d) => {
-            return <ul style="list-style-type:none; display:flex;">
+            return <tr>
             <% for (let i = 0; i < entityFields.length; i++) { %>
-            <l1>d.<%=entityFields[i]['name']%></l1>
+            <td style={rowStyle}>{d.<%=entityFields[i]['name']%>}</td>
             <% } %>
-            <li>Button</li>
-        </ul>
+            <td style={rowStyle}>
+                <button style={{margin:'10px'}}>Delete</button>
+                <button>Update</button>
+            </td>
+        </tr>
         });
     }
     
     return <div>
-        <div id="head">
-            <ul style="list-style-type:none; display:flex;">
+        <table id="table" style={tableStyle}>
+            <tr>
                 <% for (let i = 0; i < entityFields.length; i++) { %>
-                <l1><%=entityFields[i]['name']%></l1>
+                <th style={rowStyle}><%=entityFields[i]['name']%></th>
                 <% } %>
-                <l1>Operation</l1>
-            </ul>
-        </div>
-        <div id="body">
+                <th style={rowStyle}>Operation</th>
+            </tr>
             {renderData(data)}
-        </div>
+        </table>
     </div>
 }
     
@@ -58,7 +72,7 @@ export default <%=entity%>List;
 `;
 const editorTemplate = `
 import React from 'react';
-const <%=entity%>Editor = (delete<%=entity%>, update<%=entity%>) => 
+const <%=entity%>Editor = ({delete<%=entity%>, update<%=entity%>}) => 
 	<div>
 		<button onClick={delete<%=entity%>}>Delete</button>
 		<button onClick={update<%=entity%>}>Update</button>
